@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:mariadb:12.3:///sarcina
+    username: test
+    password: test
+    hikari:
+      maximum-pool-size: 10
+      allow-pool-suspension: true
+  flyway:
+    fail-on-missing-locations: true
+    baseline-on-migrate: true
+    validate-on-migrate: true
+    connect-retries: 3
+    connect-retries-interval: 10s
+    out-of-order: true
+    clean-disabled: false
+    locations: classpath:db/migration
+    enabled: true
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDBDialect

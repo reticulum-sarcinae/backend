@@ -1,0 +1,11 @@
+rootProject.name = 'sarcina'
+
+include 'backend'
+include 'core'
+include 'domain:api'
+include 'domain:usecase'
+include 'domain:port'
+file('domain/port').eachDir { portModule ->
+  include "domain:port:${portModule.name}"
+}
+include 'adapter:persistence'
