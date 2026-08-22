@@ -1,0 +1,8 @@
+apply plugin: 'java'
+subprojects {
+  dependencies {
+    implementation project(':domain:api')
+    implementation "org.mapstruct:mapstruct:${mapstructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+  }
+}

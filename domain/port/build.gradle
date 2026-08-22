@@ -1,0 +1,7 @@
+apply plugin: 'java'
+
+subprojects {
+  dependencies {
+    implementation project(':domain:api')
+  }
+}

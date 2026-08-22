@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    name: SarcinaDataSource
+    url: jdbc:mariadb://localhost:3333/sarcina
+    driver-class-name: org.mariadb.jdbc.Driver
+    username: test
+    password: test
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 35
+      allow-pool-suspension: true
+  flyway:
+    fail-on-missing-locations: true
+    baseline-on-migrate: true
+    validate-on-migrate: true
+    create-schemas: true
+    connect-retries: 3
+    connect-retries-interval: 10s
+    out-of-order: true
+    clean-disabled: false
+    locations: classpath:db/migration
+    enabled: true
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDBDialect
