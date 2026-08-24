@@ -1,7 +1,8 @@
 package de.reticulum.sarcinae.backend.adapter.persistence.services;
 
-import de.reticulum.sarcinae.backend.adapter.persistence.entities.HelloWorldEntity;
+import de.reticulum.sarcinae.backend.adapter.persistence.mapper.HelloWorldEntityMapper;
 import de.reticulum.sarcinae.backend.adapter.persistence.repositories.HelloWorldRepository;
+import de.reticulum.sarcinae.backend.models.HelloWorld;
 import de.reticulum.sarcinae.backend.port.persistence.HelloWorldPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,14 +12,15 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class HelloWorldAdapter implements HelloWorldPort {
   private final HelloWorldRepository helloWorldRepository;
+  private final HelloWorldEntityMapper helloWorldEntityMapper;
 
   @Override
   @Transactional(readOnly = true)
-  public String helloWorldUseCase() {
+  public HelloWorld helloWorldUseCase() {
     return helloWorldRepository.findAll()
       .stream()
       .findAny()
-      .map(HelloWorldEntity::getMessage)
+      .map(helloWorldEntityMapper::toDomain)
       .orElse(null);
   }
 }
