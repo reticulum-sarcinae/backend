@@ -1,5 +1,6 @@
 package de.reticulum.sarcinae.backend.service;
 
+import de.reticulum.sarcinae.backend.models.HelloWorld;
 import de.reticulum.sarcinae.backend.port.persistence.HelloWorldPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ public class HelloWorldService implements HelloWorldUseCase {
   private final HelloWorldPort helloWorldPort;
 
   @Override
-  public String helloWorld() {
+  public HelloWorld helloWorld() {
     return helloWorldPort.helloWorldUseCase();
   }
 }

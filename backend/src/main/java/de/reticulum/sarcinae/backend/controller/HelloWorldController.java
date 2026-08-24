@@ -15,6 +15,6 @@ public class HelloWorldController {
 
   @GetMapping("/hello-world")
   public String helloWorld() {
-    return helloWorldUseCase.helloWorld();
+    return helloWorldUseCase.helloWorld().message();
   }
 }
