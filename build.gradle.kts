@@ -1,11 +1,9 @@
+import org.gradle.plugins.ide.idea.model.IdeaModel
+
 plugins {
   java
   idea
 }
-
-val lombokVersion: String by project
-val junitVersion: String by project
-val springBootVersion: String by project
 
 group = "de.reticulum.sarcinae"
 version = "0.0.1-SNAPSHOT"
@@ -27,10 +25,12 @@ dependencies {
 }
 
 allprojects {
-  apply(plugin = "java")
-  apply(plugin = "idea")
+  apply {
+    plugin("java")
+    plugin("idea")
+  }
 
-  configure<org.gradle.plugins.ide.idea.model.IdeaModel> {
+  configure<IdeaModel> {
     module {
       isDownloadJavadoc = true
       isDownloadSources = true
@@ -47,11 +47,11 @@ allprojects {
   }
 
   dependencies {
-    "implementation"("org.projectlombok:lombok:$lombokVersion")
-    "annotationProcessor"("org.projectlombok:lombok:$lombokVersion")
+    implementation(rootProject.libs.lombok)
+    annotationProcessor(rootProject.libs.lombok)
 
-    "testRuntimeOnly"("org.junit.platform:junit-platform-launcher:$junitVersion")
-    "testImplementation"("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
+    testRuntimeOnly(rootProject.libs.junit.platform.launcher)
+    testImplementation(rootProject.libs.spring.boot.starter.test)
   }
 
   configurations {

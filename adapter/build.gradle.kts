@@ -2,12 +2,12 @@ plugins {
   java
 }
 
-val mapstructVersion: String by project
+val versionCatalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
 subprojects {
   dependencies {
-    "implementation"(project(":domain:api"))
-    "implementation"("org.mapstruct:mapstruct:$mapstructVersion")
-    "annotationProcessor"("org.mapstruct:mapstruct-processor:$mapstructVersion")
+    implementation(project(":domain:api"))
+    implementation(rootProject.libs.mapstruct)
+    annotationProcessor(rootProject.libs.mapstruct.processor)
   }
 }

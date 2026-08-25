@@ -1,6 +1,3 @@
-val springBootVersion: String by project
-val mapstructVersion: String by project
-
 dependencies {
   implementation(project(":domain:api"))
   implementation(project(":domain:usecase"))
@@ -9,11 +6,11 @@ dependencies {
     implementation(project(portProject.path))
   }
 
-  implementation("org.mapstruct:mapstruct:$mapstructVersion")
-  implementation("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+  implementation(rootProject.libs.mapstruct)
+  implementation(rootProject.libs.spring.boot.starter.web)
 
-  annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
+  annotationProcessor(rootProject.libs.mapstruct.processor)
 
-  testAnnotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
+  testAnnotationProcessor(rootProject.libs.mapstruct.processor)
 
 }
