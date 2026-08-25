@@ -1,20 +1,21 @@
 plugins {
-	id 'java'
+  id('java')
+  id('idea')
 }
 
 group = 'de.reticulum.sarcinae'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(25)
-	}
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(25)
+  }
 }
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+  compileOnly {
+    extendsFrom annotationProcessor
+  }
 }
 
 //jar {
@@ -22,44 +23,43 @@ configurations {
 //}
 
 dependencies {
-	implementation project(':backend')
+  implementation project(':backend')
 }
 
 allprojects {
-	apply plugin: 'java'
-	apply plugin: 'idea'
+  apply plugin: 'java'
 
-	idea {
-		module {
-			downloadJavadoc = true
-			downloadSources = true
-		}
-	}
+  idea {
+    module {
+      downloadJavadoc = true
+      downloadSources = true
+    }
+  }
 
-	test {
-		useJUnitPlatform()
-	}
+  test {
+    useJUnitPlatform()
+  }
 
-	repositories {
-		mavenLocal()
-		mavenCentral()
-	}
+  repositories {
+    mavenLocal()
+    mavenCentral()
+  }
 
-	dependencies {
-		implementation "org.projectlombok:lombok:${lombokVersion}"
-		annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+  dependencies {
+    implementation "org.projectlombok:lombok:${lombokVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
 
-		testRuntimeOnly "org.junit.platform:junit-platform-launcher:${junitVersion}"
-		testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
-	}
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher:${junitVersion}"
+    testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+  }
 
-	configurations {
-		compileOnly {
-			extendsFrom annotationProcessor
-		}
-	}
+  configurations {
+    compileOnly {
+      extendsFrom annotationProcessor
+    }
+  }
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+  useJUnitPlatform()
 }
