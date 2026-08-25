@@ -1,5 +1,7 @@
 package de.reticulum.sarcinae.backend.adapter.persistence.services;
 
+import java.util.Optional;
+
 import de.reticulum.sarcinae.backend.adapter.persistence.mapper.HelloWorldEntityMapper;
 import de.reticulum.sarcinae.backend.adapter.persistence.repositories.HelloWorldRepository;
 import de.reticulum.sarcinae.backend.models.HelloWorld;
@@ -16,11 +18,10 @@ public class HelloWorldAdapter implements HelloWorldPort {
 
   @Override
   @Transactional(readOnly = true)
-  public HelloWorld helloWorldUseCase() {
+  public Optional<HelloWorld> helloWorldUseCase() {
     return helloWorldRepository.findAll()
       .stream()
       .findAny()
-      .map(helloWorldEntityMapper::toDomain)
-      .orElse(null);
+      .map(helloWorldEntityMapper::toDomain);
   }
 }
