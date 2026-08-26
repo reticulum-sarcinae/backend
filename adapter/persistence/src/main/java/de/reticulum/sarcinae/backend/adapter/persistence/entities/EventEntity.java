@@ -42,7 +42,7 @@ public class EventEntity {
   @Column(name = "end_time")
   private OffsetDateTime endTime;
 
-  @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
   @Builder.Default
   private Set<EventParticipantEntity> participants = new HashSet<>();
 
@@ -53,5 +53,10 @@ public class EventEntity {
   public void addParticipant(EventParticipantEntity participant) {
     participant.setEvent(this);
     this.participants.add(participant);
+  }
+
+  public void removeParticipant(EventParticipantEntity participant) {
+    participant.setEvent(null);
+    this.participants.remove(participant);
   }
 }

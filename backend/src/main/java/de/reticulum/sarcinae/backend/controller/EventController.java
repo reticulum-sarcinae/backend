@@ -2,6 +2,7 @@ package de.reticulum.sarcinae.backend.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import de.reticulum.sarcinae.backend.mapper.EventInputMapper;
 import de.reticulum.sarcinae.backend.mapper.EventOutputMapper;
@@ -10,7 +11,9 @@ import de.reticulum.sarcinae.backend.models.output.EventOutput;
 import de.reticulum.sarcinae.backend.service.EventUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +33,8 @@ public class EventController {
     return Optional.of(eventUseCase.findAllEvents())
       .map(outputMapper::toOutput)
       .map(ResponseEntity::ok)
-      .orElse(ResponseEntity.notFound().build());
+      .orElse(ResponseEntity.notFound()
+        .build());
   }
 
   @PostMapping
@@ -42,6 +46,32 @@ public class EventController {
       .map(eventUseCase::createEvent)
       .map(outputMapper::toOutput)
       .map(ResponseEntity::ok)
-      .orElse(ResponseEntity.notFound().build());
+      .orElse(ResponseEntity.notFound()
+        .build());
+  }
+
+  @DeleteMapping("/{eventId}")
+  public ResponseEntity<Void> createEvent(@PathVariable UUID eventId) {
+    eventUseCase.deleteEvent(eventId);
+    return ResponseEntity.noContent()
+      .build();
+  }
+
+  @PostMapping("/{eventId}/addParticipant")
+  public ResponseEntity<EventOutput> addParticipant(@PathVariable UUID eventId, @RequestBody String name) {
+    return eventUseCase.addParticipant(eventId, name)
+      .map(outputMapper::toOutput)
+      .map(ResponseEntity::ok)
+      .orElse(ResponseEntity.notFound()
+        .build());
+  }
+
+  @DeleteMapping("/{eventId}/deleteParticipant")
+  public ResponseEntity<EventOutput> deleteParticipant(@PathVariable UUID eventId, @RequestBody UUID participantId) {
+    return eventUseCase.deleteParticipant(eventId, participantId)
+      .map(outputMapper::toOutput)
+      .map(ResponseEntity::ok)
+      .orElse(ResponseEntity.notFound()
+        .build());
   }
 }
