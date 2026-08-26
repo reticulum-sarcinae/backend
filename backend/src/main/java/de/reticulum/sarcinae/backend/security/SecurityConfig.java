@@ -21,7 +21,7 @@ public class SecurityConfig {
   ) {
     return http
       .securityMatcher(
-        "/api/hello-world"
+        "/api/*"
       )
       .authorizeHttpRequests(
         authorize -> authorize

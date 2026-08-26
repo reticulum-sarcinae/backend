@@ -1,7 +1,7 @@
 package de.reticulum.sarcinae.backend.adapter.persistence.mapper;
 
-import de.reticulum.sarcinae.backend.adapter.persistence.entities.HelloWorldEntity;
-import de.reticulum.sarcinae.backend.models.HelloWorld;
+import de.reticulum.sarcinae.backend.adapter.persistence.entities.EventParticipantEntity;
+import de.reticulum.sarcinae.backend.models.EventParticipant;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
@@ -12,8 +12,8 @@ import org.mapstruct.ReportingPolicy;
   unmappedSourcePolicy = ReportingPolicy.ERROR,
   unmappedTargetPolicy = ReportingPolicy.ERROR
 )
-public interface HelloWorldEntityMapper {
+public interface EventParticipantEntityMapper {
 
-  @BeanMapping(ignoreUnmappedSourceProperties = {"id"})
-  HelloWorld toDomain(HelloWorldEntity entity);
+  @BeanMapping(ignoreUnmappedSourceProperties = { "event" })
+  EventParticipant toDomain(EventParticipantEntity entity);
 }
