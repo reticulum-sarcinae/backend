@@ -4,6 +4,7 @@ import de.reticulum.sarcinae.backend.adapter.persistence.entities.EventParticipa
 import de.reticulum.sarcinae.backend.models.EventParticipant;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
@@ -14,6 +15,10 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface EventParticipantEntityMapper {
 
-  @BeanMapping(ignoreUnmappedSourceProperties = { "event" })
+  @BeanMapping(ignoreUnmappedSourceProperties = {"event"})
   EventParticipant toDomain(EventParticipantEntity entity);
+
+  @Mapping(target = "id", ignore = true)
+  @Mapping(target = "event", ignore = true)
+  EventParticipantEntity fromString(String name);
 }

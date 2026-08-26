@@ -2,7 +2,9 @@ package de.reticulum.sarcinae.backend.adapter.persistence.mapper;
 
 import de.reticulum.sarcinae.backend.adapter.persistence.entities.EventEntity;
 import de.reticulum.sarcinae.backend.models.Event;
+import de.reticulum.sarcinae.backend.models.EventCreationRequest;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;
 
@@ -17,4 +19,7 @@ import org.mapstruct.ReportingPolicy;
 public interface EventEntityMapper {
 
   Event toDomain(EventEntity entity);
+
+  @Mapping(target = "id", ignore = true)
+  EventEntity toEntityWithoutParticipant(EventCreationRequest eventCreationRequest);
 }

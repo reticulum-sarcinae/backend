@@ -1,22 +1,28 @@
 package de.reticulum.sarcinae.backend.controller;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
+import java.util.Set;
 
 import de.reticulum.sarcinae.backend.adapter.persistence.entities.EventEntity;
 import de.reticulum.sarcinae.backend.adapter.persistence.entities.EventParticipantEntity;
 import de.reticulum.sarcinae.backend.adapter.persistence.repositories.EventParticipantRepository;
 import de.reticulum.sarcinae.backend.adapter.persistence.repositories.EventRepository;
+import de.reticulum.sarcinae.backend.models.input.EventCreationRequestInput;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import tools.jackson.databind.ObjectMapper;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -33,6 +39,9 @@ public class EventControllerMockMvcTest {
   EventRepository eventRepository;
 
   @Autowired
+  ObjectMapper objectMapper;
+
+  @Autowired
   EventParticipantRepository eventParticipantRepository;
 
   @BeforeEach
@@ -43,7 +52,7 @@ public class EventControllerMockMvcTest {
   }
 
   @Test
-  void test_controller() throws Exception {
+  void test_get_all() throws Exception {
     var event = eventRepository.save(
       EventEntity.builder()
         .name("BREEZE")
@@ -80,5 +89,33 @@ public class EventControllerMockMvcTest {
           ]
           """.formatted(event.getId(), participant.getId())
       ));
+  }
+
+  @Test
+  void test_create() throws Exception {
+    var request = EventCreationRequestInput.builder()
+      .name("BREEZE")
+      .startTime(OffsetDateTime.of(LocalDate.of(2027, 8, 18).atStartOfDay(), ZoneOffset.UTC))
+      .endTime(OffsetDateTime.of(LocalDate.of(2027, 8, 21).atStartOfDay(), ZoneOffset.UTC))
+      .participants(Set.of("Wirtshausfranz"))
+      .build();
+
+    mockMvc.perform(
+        post("/api/event")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content(objectMapper.writeValueAsString(request))
+      )
+      .andExpect(status().isOk());
+
+    assertThat(eventRepository.findAll())
+      .singleElement()
+      .satisfies(eventEntity -> {
+        assertThat(eventEntity.getName()).isEqualTo("BREEZE");
+        assertThat(eventEntity.getStartTime()).isEqualTo(OffsetDateTime.of(LocalDate.of(2027, 8, 18).atStartOfDay(), ZoneOffset.UTC));
+        assertThat(eventEntity.getEndTime()).isEqualTo(OffsetDateTime.of(LocalDate.of(2027, 8, 21).atStartOfDay(), ZoneOffset.UTC));
+        assertThat(eventParticipantRepository.findAllByEvent(eventEntity))
+          .singleElement()
+          .satisfies(participantEntity -> assertThat(participantEntity.getName()).isEqualTo("Wirtshausfranz"));
+      });
   }
 }

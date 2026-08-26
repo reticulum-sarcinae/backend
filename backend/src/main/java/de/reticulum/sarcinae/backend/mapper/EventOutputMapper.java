@@ -3,7 +3,7 @@ package de.reticulum.sarcinae.backend.mapper;
 import java.util.List;
 
 import de.reticulum.sarcinae.backend.models.Event;
-import de.reticulum.sarcinae.backend.models.EventOutput;
+import de.reticulum.sarcinae.backend.models.output.EventOutput;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.ReportingPolicy;

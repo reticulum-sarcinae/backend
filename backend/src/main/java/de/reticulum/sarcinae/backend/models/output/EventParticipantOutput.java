@@ -1,4 +1,4 @@
-package de.reticulum.sarcinae.backend.models;
+package de.reticulum.sarcinae.backend.models.output;
 
 import java.util.UUID;
 
