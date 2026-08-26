@@ -69,7 +69,7 @@ public class EventAdapter implements EventPort {
 
   private Optional<EventEntity> removeParticipantById(EventEntity event, UUID participantId) {
     return event.getParticipants().stream()
-      .filter(participant -> !participant.getId().equals(participantId))
+      .filter(participant -> participant.getId().equals(participantId))
       .findFirst()
       .map(participant -> {
         event.removeParticipant(participant);

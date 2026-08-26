@@ -51,14 +51,14 @@ public class EventController {
   }
 
   @DeleteMapping("/{eventId}")
-  public ResponseEntity<Void> createEvent(@PathVariable UUID eventId) {
+  public ResponseEntity<Void> createEvent(@PathVariable("eventId") UUID eventId) {
     eventUseCase.deleteEvent(eventId);
     return ResponseEntity.noContent()
       .build();
   }
 
   @PostMapping("/{eventId}/addParticipant")
-  public ResponseEntity<EventOutput> addParticipant(@PathVariable UUID eventId, @RequestBody String name) {
+  public ResponseEntity<EventOutput> addParticipant(@PathVariable("eventId") UUID eventId, @RequestBody String name) {
     return eventUseCase.addParticipant(eventId, name)
       .map(outputMapper::toOutput)
       .map(ResponseEntity::ok)
@@ -67,7 +67,7 @@ public class EventController {
   }
 
   @DeleteMapping("/{eventId}/deleteParticipant")
-  public ResponseEntity<EventOutput> deleteParticipant(@PathVariable UUID eventId, @RequestBody UUID participantId) {
+  public ResponseEntity<EventOutput> deleteParticipant(@PathVariable("eventId") UUID eventId, @RequestBody UUID participantId) {
     return eventUseCase.deleteParticipant(eventId, participantId)
       .map(outputMapper::toOutput)
       .map(ResponseEntity::ok)
