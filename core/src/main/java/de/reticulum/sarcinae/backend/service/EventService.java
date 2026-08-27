@@ -7,6 +7,7 @@ import java.util.UUID;
 import de.reticulum.sarcinae.backend.models.Event;
 import de.reticulum.sarcinae.backend.models.EventCreationRequest;
 import de.reticulum.sarcinae.backend.port.persistence.EventPort;
+import de.reticulum.sarcinae.backend.service.validation.event.EventValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class EventService implements EventUseCase {
   private final EventPort eventPort;
+  private final EventValidationService eventValidationService;
 
   @Override
   public List<Event> findAllEvents() {
@@ -22,7 +24,7 @@ public class EventService implements EventUseCase {
 
   @Override
   public Event createEvent(EventCreationRequest eventCreationRequest) {
-    validateEventCreationRequest(eventCreationRequest);
+    eventValidationService.validate(eventCreationRequest);
     return eventPort.createEvent(eventCreationRequest);
   }
 
@@ -41,7 +43,8 @@ public class EventService implements EventUseCase {
     return eventPort.deleteParticipant(eventId, participantId);
   }
 
-  private void validateEventCreationRequest(EventCreationRequest eventCreationRequest) {
-
+  @Override
+  public Optional<Event> findEventById(UUID eventId) {
+    return eventPort.findEventById(eventId);
   }
 }

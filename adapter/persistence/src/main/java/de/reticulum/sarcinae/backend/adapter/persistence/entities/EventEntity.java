@@ -56,7 +56,6 @@ public class EventEntity {
   }
 
   public void removeParticipant(EventParticipantEntity participant) {
-    participant.setEvent(null);
     this.participants.remove(participant);
   }
 }

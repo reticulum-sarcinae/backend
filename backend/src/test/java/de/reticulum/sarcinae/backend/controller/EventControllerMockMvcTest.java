@@ -92,6 +92,44 @@ public class EventControllerMockMvcTest {
   }
 
   @Test
+  void test_get_by_id() throws Exception {
+    var event = eventRepository.save(
+      EventEntity.builder()
+        .name("BREEZE")
+        .startTime(OffsetDateTime.of(LocalDate.of(2027, 8, 18).atStartOfDay(), ZoneOffset.UTC))
+        .endTime(OffsetDateTime.of(LocalDate.of(2027, 8, 21).atStartOfDay(), ZoneOffset.UTC))
+        .build()
+    );
+    var participant = eventParticipantRepository.save(
+      EventParticipantEntity.builder()
+        .name("Wirtshausfranz")
+        .event(event)
+        .build()
+    );
+
+    mockMvc.perform(
+        get("/api/event/" + event.getId())
+      )
+      .andExpect(status().isOk())
+      .andExpect(content().json(
+        """
+          {
+            "id": "%s",
+            "name": "BREEZE",
+            "startTime": "2027-08-18T00:00:00Z",
+            "endTime": "2027-08-21T00:00:00Z",
+            "participants": [
+              {
+                "id": "%s",
+                "name": "Wirtshausfranz"
+              }
+            ]
+          }
+          """.formatted(event.getId(), participant.getId())
+      ));
+  }
+
+  @Test
   void test_create() throws Exception {
     var request = EventCreationRequestInput.builder()
       .name("BREEZE")

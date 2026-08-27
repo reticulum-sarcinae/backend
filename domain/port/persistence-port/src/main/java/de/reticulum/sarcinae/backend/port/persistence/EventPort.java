@@ -17,4 +17,6 @@ public interface EventPort {
   Optional<Event> addParticipant(UUID eventId, String name);
 
   Optional<Event> deleteParticipant(UUID eventId, UUID participantId);
+
+  Optional<Event> findEventById(UUID eventId);
 }

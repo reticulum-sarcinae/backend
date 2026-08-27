@@ -37,6 +37,15 @@ public class EventController {
         .build());
   }
 
+  @GetMapping("/{eventId}")
+  public ResponseEntity<EventOutput> getEventById(@PathVariable("eventId") UUID eventId) {
+    return eventUseCase.findEventById(eventId)
+      .map(outputMapper::toOutput)
+      .map(ResponseEntity::ok)
+      .orElse(ResponseEntity.notFound()
+        .build());
+  }
+
   @PostMapping
   public ResponseEntity<EventOutput> createEvent(
     @RequestBody EventCreationRequestInput eventCreationRequestInput
@@ -51,7 +60,7 @@ public class EventController {
   }
 
   @DeleteMapping("/{eventId}")
-  public ResponseEntity<Void> createEvent(@PathVariable("eventId") UUID eventId) {
+  public ResponseEntity<Void> deleteEvent(@PathVariable("eventId") UUID eventId) {
     eventUseCase.deleteEvent(eventId);
     return ResponseEntity.noContent()
       .build();

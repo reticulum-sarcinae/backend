@@ -6,7 +6,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import de.reticulum.sarcinae.backend.adapter.persistence.entities.EventEntity;
-import de.reticulum.sarcinae.backend.adapter.persistence.entities.EventParticipantEntity;
 import de.reticulum.sarcinae.backend.adapter.persistence.mapper.EventEntityMapper;
 import de.reticulum.sarcinae.backend.adapter.persistence.mapper.EventParticipantEntityMapper;
 import de.reticulum.sarcinae.backend.adapter.persistence.repositories.EventRepository;
@@ -64,6 +63,12 @@ public class EventAdapter implements EventPort {
     return eventRepository.findById(eventId)
       .flatMap(event -> removeParticipantById(event, participantId))
       .map(eventRepository::save)
+      .map(eventEntityMapper::toDomain);
+  }
+
+  @Override
+  public Optional<Event> findEventById(UUID eventId) {
+    return eventRepository.findById(eventId)
       .map(eventEntityMapper::toDomain);
   }
 
