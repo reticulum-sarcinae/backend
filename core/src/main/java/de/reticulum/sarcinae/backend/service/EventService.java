@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import de.reticulum.sarcinae.backend.models.Event;
 import de.reticulum.sarcinae.backend.models.EventCreationRequest;
-import de.reticulum.sarcinae.backend.port.persistence.EventPort;
+import de.reticulum.sarcinae.backend.port.persistence.EventPersistencePort;
 import de.reticulum.sarcinae.backend.service.validation.event.EventValidationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,37 +14,37 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class EventService implements EventUseCase {
-  private final EventPort eventPort;
+  private final EventPersistencePort eventPersistencePort;
   private final EventValidationService eventValidationService;
 
   @Override
   public List<Event> findAllEvents() {
-    return eventPort.findAllEvents();
+    return eventPersistencePort.findAllEvents();
   }
 
   @Override
   public Event createEvent(EventCreationRequest eventCreationRequest) {
     eventValidationService.validate(eventCreationRequest);
-    return eventPort.createEvent(eventCreationRequest);
+    return eventPersistencePort.createEvent(eventCreationRequest);
   }
 
   @Override
   public void deleteEvent(UUID eventID) {
-    eventPort.deleteEventById(eventID);
+    eventPersistencePort.deleteEventById(eventID);
   }
 
   @Override
   public Optional<Event> addParticipant(UUID eventId, String name) {
-    return eventPort.addParticipant(eventId, name);
+    return eventPersistencePort.addParticipant(eventId, name);
   }
 
   @Override
   public Optional<Event> deleteParticipant(UUID eventId, UUID participantId) {
-    return eventPort.deleteParticipant(eventId, participantId);
+    return eventPersistencePort.deleteParticipant(eventId, participantId);
   }
 
   @Override
   public Optional<Event> findEventById(UUID eventId) {
-    return eventPort.findEventById(eventId);
+    return eventPersistencePort.findEventById(eventId);
   }
 }

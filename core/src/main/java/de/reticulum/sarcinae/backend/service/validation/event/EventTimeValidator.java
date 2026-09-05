@@ -9,6 +9,10 @@ import org.springframework.stereotype.Service;
 public class EventTimeValidator implements EventValidator {
 
   public List<String> validate(EventCreationRequest eventCreationRequest) {
+    if (eventCreationRequest.startTime() == null || eventCreationRequest.endTime() == null) {
+      return List.of();
+    }
+
     if (eventCreationRequest.startTime().isAfter(eventCreationRequest.endTime())) {
       return List.of("Start time must be before end time");
     }

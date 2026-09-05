@@ -11,14 +11,14 @@ import de.reticulum.sarcinae.backend.adapter.persistence.mapper.EventParticipant
 import de.reticulum.sarcinae.backend.adapter.persistence.repositories.EventRepository;
 import de.reticulum.sarcinae.backend.models.Event;
 import de.reticulum.sarcinae.backend.models.EventCreationRequest;
-import de.reticulum.sarcinae.backend.port.persistence.EventPort;
+import de.reticulum.sarcinae.backend.port.persistence.EventPersistencePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class EventAdapter implements EventPort {
+public class EventAdapter implements EventPersistencePort {
   private final EventEntityMapper eventEntityMapper;
   private final EventParticipantEntityMapper eventParticipantEntityMapper;
   private final EventRepository eventRepository;

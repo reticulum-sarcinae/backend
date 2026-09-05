@@ -7,7 +7,7 @@ import java.util.UUID;
 import de.reticulum.sarcinae.backend.models.Event;
 import de.reticulum.sarcinae.backend.models.EventCreationRequest;
 
-public interface EventPort {
+public interface EventPersistencePort {
   List<Event> findAllEvents();
 
   Event createEvent(EventCreationRequest eventCreationRequest);

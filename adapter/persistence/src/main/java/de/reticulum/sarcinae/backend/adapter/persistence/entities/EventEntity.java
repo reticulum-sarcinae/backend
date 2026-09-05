@@ -23,7 +23,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "event")
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,18 +32,25 @@ public class EventEntity {
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
+  @Setter
   @Column(name = "name")
   private String name;
 
+  @Setter
   @Column(name = "start_time")
   private OffsetDateTime startTime;
 
+  @Setter
   @Column(name = "end_time")
   private OffsetDateTime endTime;
 
   @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
   @Builder.Default
   private Set<EventParticipantEntity> participants = new HashSet<>();
+
+  public Set<EventParticipantEntity> getParticipants() {
+    return Set.copyOf(participants);
+  }
 
   public void addAllParticipants(Collection<EventParticipantEntity> participants) {
     participants.forEach(this::addParticipant);
