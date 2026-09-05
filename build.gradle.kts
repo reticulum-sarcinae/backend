@@ -50,6 +50,12 @@ allprojects {
     implementation(rootProject.libs.lombok)
     annotationProcessor(rootProject.libs.lombok)
 
+    constraints {
+      implementation(rootProject.libs.tomcat.embed.core) {
+        because("Override Spring Boot's transitive Tomcat core version.")
+      }
+    }
+
     testRuntimeOnly(rootProject.libs.junit.platform.launcher)
     testImplementation(rootProject.libs.spring.boot.starter.test)
   }
