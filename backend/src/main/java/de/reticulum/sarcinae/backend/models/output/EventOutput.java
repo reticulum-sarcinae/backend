@@ -1,0 +1,17 @@
+package de.reticulum.sarcinae.backend.models.output;
+
+import java.time.OffsetDateTime;
+import java.util.Set;
+import java.util.UUID;
+
+import lombok.Builder;
+
+@Builder(toBuilder = true)
+public record EventOutput(
+  UUID id,
+  String name,
+  OffsetDateTime startTime,
+  OffsetDateTime endTime,
+  Set<EventParticipantOutput> participants
+) {
+}
