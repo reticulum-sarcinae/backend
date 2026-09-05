@@ -5,7 +5,7 @@ lombok = "1.18.46"
 mapstruct = "1.6.3"
 mariadb-client = "3.5.10"
 spring-boot = "4.1.1"
-spring-security = "7.1.0"
+spring-security = "7.1.1"
 testcontainers = "1.21.4"
 
 [libraries]
